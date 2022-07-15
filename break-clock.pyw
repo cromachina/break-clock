@@ -12,6 +12,7 @@ def create_alarm_schedule():
     schedule.every().hour.at(':00').do(start_alarm)
     schedule.every().hour.at(':30').do(start_alarm)
 
+compact_mode = False
 alarm_flash_duration_mins = 5
 smooth_second = False
 smooth_minute = True
@@ -46,8 +47,8 @@ def draw_hand(value, length, width, color, start_length=0):
 def draw_hour_tick(value):
     draw_hand(value / 12, 45, 2, face_color, 40)
 
-def draw_loop():
-    canvas.delete(tk.ALL)
+def draw_large_clock():
+    win.geometry('100x100')
     now = datetime.now()
     if alarm_running and now.second % 2 == 0:
             canvas.create_rectangle(0, 0, 100, 100, fill=alarm_color)
@@ -73,6 +74,20 @@ def draw_loop():
     draw_hand((now.hour / 12) + (minute / 12), 30, 2, hour_color)
     draw_hand(minute, 50, 2, minute_color)
     draw_hand(second, 50, 1, second_color)
+
+def draw_compact_clock():
+    win.geometry('100x24')
+    now = datetime.now()
+    if alarm_running and now.second % 2 == 0:
+        canvas.create_rectangle(0, 0, 100, 100, fill=alarm_color)
+    canvas.create_text(50, 12, text=now.strftime('%I:%M:%S %p'), justify='center', fill=face_color)
+
+def draw_loop():
+    canvas.delete(tk.ALL)
+    if compact_mode:
+        draw_compact_clock()
+    else:
+        draw_large_clock()
     win.after(200, draw_loop)
 
 def dismiss_alarm():
