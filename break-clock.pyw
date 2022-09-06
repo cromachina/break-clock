@@ -80,7 +80,7 @@ def draw_compact_clock():
     now = datetime.now()
     if alarm_running and now.second % 2 == 0:
         canvas.create_rectangle(0, 0, 100, 100, fill=alarm_color)
-    canvas.create_text(50, 12, text=now.strftime('%I:%M:%S %p'), justify='center', fill=face_color)
+    canvas.create_text(50, 12, text=now.strftime('%I:%M:%S %p %a'), justify='center', fill=face_color)
 
 def draw_loop():
     canvas.delete(tk.ALL)
