@@ -103,8 +103,13 @@ def check_schedule_loop():
     schedule.run_pending()
     win.after(1000, check_schedule_loop)
 
+def change_mode():
+    global compact_mode
+    compact_mode = not compact_mode
+
 win.bind('<Button-1>', lambda _: dismiss_alarm())
 win.bind('<Escape>', lambda _: win.quit())
+win.bind('q', lambda _: change_mode())
 
 class MakeDraggable():
     def __init__(self, window):
